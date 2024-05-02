@@ -105,6 +105,7 @@ class MovingAverageConvergenceDivergence(TechnicalIndicator):
         """
 
         # Not enough data for calculating trading signal
+        
         if len(self._ti_data.index) < 2:
             return TRADE_SIGNALS['hold']
 
@@ -119,7 +120,7 @@ class MovingAverageConvergenceDivergence(TechnicalIndicator):
 
         # MACD falls below Signal Line
         if self._ti_data['macd'].iloc[-2] > self._ti_data['signal_line'].iloc[-2] and \
-           self._ti_data['macd'][-1] < self._ti_data['signal_line'][-1]:
+           self._ti_data['macd'].iloc[-1] < self._ti_data['signal_line'].iloc[-1]:
             return TRADE_SIGNALS['sell']
 
         # MACD rises above Signal Line

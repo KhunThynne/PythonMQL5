@@ -21,5 +21,3 @@ import sys
 current_directory = os.getcwd()
 # print(os.getcwd())
 # print(os.path.join("__config"))
-
-test = "__con"

@@ -1,9 +1,35 @@
 # prepare the buy request structure
 
-from MQL_Five.__config import mt5,test
+import time
+
+import pandas as pd
+from MQL_Five.__config import mt5
 from MQL_Five import initailize
 # initailize.initial_login()
-
+class Order():
+    def __init__(self,symbol,mt5,request_object) -> None:
+        self.symbol = symbol
+        self.mt5 = mt5
+        pass
+    def request(self):
+        account_info=self.mt5.account_info()
+        if account_info!=None:
+        # display trading account data 'as is'
+            # print(account_info)
+            # display trading account data in the form of a dictionary
+            print("Show account_info()._asdict():")
+            account_info_dict = mt5.account_info()._asdict()
+            for prop in account_info_dict:
+                print("  {}={}".format(prop, account_info_dict[prop]))
+           
+    
+            # convert the dictionary into DataFrame and print
+            df=pd.DataFrame(list(account_info_dict.items()),columns=['property','value'])
+            print("account_info() as dataframe:")
+           
+        else:
+            print("failed to connect to trade account 25115284 with password=gqz0343lbdm, error code =",mt5.last_error())
+ 
 def send_request():
     symbol = "USDJPY"
     symbol_info = mt5.symbol_info(symbol)
@@ -42,7 +68,7 @@ def send_request():
     # send a trading request
     result = mt5.order_send(request)
     # check the execution result
-    print("1. order_send(): by {} {} lots at {} with deviation={} points".format(symbol,lot,price,deviation));
+    print("1. order_send(): by {} {} lots at {} with deviation={} points".format(symbol,lot,price,deviation))
     if result.retcode != mt5.TRADE_RETCODE_DONE:
         print("2. order_send failed, \nretcode={}".format(result.retcode))
         # request the result as a dictionary and display it element by element
